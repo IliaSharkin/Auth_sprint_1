@@ -1,20 +1,17 @@
 import datetime
-import uuid
-from sqlalchemy.dialects.postgresql import UUID
 
-from sqlalchemy import BOOLEAN, TEXT, TIMESTAMP, VARCHAR, Column, ForeignKey
 from sqlalchemy.dialects.postgresql import INET
 from sqlalchemy.ext.hybrid import hybrid_property
 from werkzeug.security import check_password_hash, generate_password_hash
+from sqlalchemy import Column, ForeignKey, TEXT, VARCHAR, BOOLEAN, TIMESTAMP
 
 from database import Base
 from models.base import TimestapmMixin
 
 
-class User(Base, TimestapmMixin):
+class User(TimestapmMixin):
     __tablename__ = 'users'
 
-    id = Column(UUID(as_uuid=True), nullable=False, unique=True, primary_key=True, default=uuid.uuid4)
     username = Column(VARCHAR(255), nullable=False, unique=True)
     pwd_hash = Column(VARCHAR(255))
     is_superuser = Column(BOOLEAN(), default=False)
@@ -37,7 +34,7 @@ class User(Base, TimestapmMixin):
         return check_password_hash(self.pwd_hash, value)
 
 
-class UserData(Base, TimestapmMixin):
+class UserData(TimestapmMixin):
     __tablename__ = 'users_data'
 
     user_id = Column(ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
@@ -52,7 +49,7 @@ class UserData(Base, TimestapmMixin):
         return f'{self.first_name} {self.last_name}'
 
 
-class UserDevice(Base, TimestapmMixin):
+class UserDevice(TimestapmMixin):
     __tablename__ = 'users_device'
 
     user_id = Column(ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
