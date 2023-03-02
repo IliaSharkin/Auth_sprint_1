@@ -1,9 +1,12 @@
-from sqlalchemy import VARCHAR, Column, ForeignKey
-from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
+from sqlalchemy import VARCHAR, Column, ForeignKey
+from sqlalchemy.dialects.postgresql import UUID
+
 from database import Base
+
 from models.base import TimestapmMixin
+
 
 
 class Permission(Base, TimestapmMixin):
